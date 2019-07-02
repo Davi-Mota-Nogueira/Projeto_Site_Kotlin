@@ -1,7 +1,56 @@
 #titulo {
-    align-content: center;
+    max-width: 150px;
+    margin: auto;
+    background: transparent;
+    padding: 20px;
 }
 
-.h1{
-    align-content: center;
+h1{
+    font-family: Candara;
+    color: #420;
+}
+
+#tabuleiro{
+    max-width: 500px;
+    margin: auto;
+    background: whitesmoke;
+    padding: 10px;
+    border: 3px solid darkslategray;
+}
+
+#butoes{
+    max-width: 500px;
+    margin: auto;
+    background: transparent;
+    padding: 20px;
+    display: grid;
+    grid-column-gap: 100px;
+    grid-template-columns: auto auto;
+}
+
+body{
+    background: seagreen;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

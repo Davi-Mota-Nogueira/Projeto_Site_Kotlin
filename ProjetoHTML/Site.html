@@ -3,13 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Super Boladona</title>
+    <link rel="stylesheet" href="Stilo_Site.css">
 </head>
 <script src="out/production/ProjetoHTML/lib/kotlin.js"></script>
+<h1 id="titulo">Resta Um</h1>
+<hr>
 
-<h1 id="titulo">O que vai ser o projeto boladão?</h1>
-<input type="text" id="oq_vai_ser" placeholder="Escreva Aqui"><button onclick="ProjetoHTML.apertar()">Submit</button>
+<table id="tabuleiro">
+    <tr>
+        <th>-1</th>
+        <th>-1</th>
+        <th>0</th>
+        <th>0</th>
+        <th>0</th>
+        <th>-1</th>
+        <th>-1</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</table>
+
+<div id="butoes">
+    <button id="recomeca" class="button" onclick="Projeto_Site_Kotlin.inicio()"> Novo Jogo</button>
+    <button id="solucao" class="button" onclick="Projeto_Site_Kotlin.solucao()">Solução</button>
+</div>
 
 <script src="out/production/ProjetoHTML/ProjetoHTML.js"></script>
 </body>
 </html>
-<style src="Stilo_Site"></style>
