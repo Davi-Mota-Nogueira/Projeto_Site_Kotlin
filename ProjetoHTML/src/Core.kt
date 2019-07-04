@@ -3,15 +3,52 @@ abstract class PositionList<out T>
 data class Position<T> (val info:Int, val prox: PositionList<T>) : PositionList<T>()
 object Null:PositionList<Nothing>()
 
+
+fun get(name:String):HTMLElement {
+    val e = document.getElementById(name)
+    if (e==null) {
+        println("Careful, the element $name was not found.")
+    }
+    return e as HTMLElement
+}
+
+val table = get("tabuleiro") as HTMLTableElement
+val img = get("bola") as HTMLImageElement
+
 fun generateBoard():Array<IntArray>
 {
-    return arrayOf(intArrayOf(-1,-1,1,1,1,-1,-1),
+    tabuleiro.innerHTML = """
+    <tr>
+        <td>
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img0" width="19" height="19" border="0">
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img1" width="19" height="19" border="0">
+            <a href="#" onclick="window.move(2);return false" onmouseover="window.status='';
+return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img2" width="19" height="19" border="0"></a>
+            <a href="#" onclick="window.move(3);return false" onmouseover="window.status='';
+return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img3" width="19" height="19" border="0"></a>
+            <a href="#" onclick="window.move(4);return false" onmouseover="window.status='';
+return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img4" width="19" height="19" border="0"></a>
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img5" width="19" height="19" border="0">
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img6" width="19" height="19" border="0">
+            <br>
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img7" width="19" height="19" border="0">
+            <img src="http://divertudo.com.br/restaum/blank.gif" name="img8" width="19" height="19" border="0">
+            <a href="#" onclick="window.move(9);return false" onmouseover="window.status='';
+return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img9" width="19" height="19" border="0"></a>
+            <a href="#" onclick="window.move(10);return false" onmouseover="window.status='';
+return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img10" width="19" height="19" border="0"></a>
+        </td>
+    </tr>
+    """.trimIndent()
+    return arrayOf(
+            intArrayOf(-1,-1,1,1,1,-1,-1),
             intArrayOf(-1,-1,1,1,1,-1,-1),
             intArrayOf( 1, 1,1,1,1, 1, 1),
             intArrayOf( 1, 1,1,0,1, 1, 1),
             intArrayOf( 1, 1,1,1,1, 1, 1),
             intArrayOf(-1,-1,1,1,1,-1,-1),
-            intArrayOf(-1,-1,1,1,1,-1,-1))
+            intArrayOf(-1,-1,1,1,1,-1,-1)
+            )
 }
 
 fun <T> generateBoard(size:Int):Array<PositionList> = {
