@@ -17,29 +17,6 @@ val img = get("bola") as HTMLImageElement
 
 fun generateBoard():Array<IntArray>
 {
-    tabuleiro.innerHTML = """
-    <tr>
-        <td>
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img0" width="19" height="19" border="0">
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img1" width="19" height="19" border="0">
-            <a href="#" onclick="window.move(2);return false" onmouseover="window.status='';
-return true"><img src="ProjetoHTML/img/bola.png" name="img2" width="19" height="19" border="0"></a>
-            <a href="#" onclick="window.move(3);return false" onmouseover="window.status='';
-return true"><img src="ProjetoHTML/img/bola.png" name="img3" width="19" height="19" border="0"></a>
-            <a href="#" onclick="window.move(4);return false" onmouseover="window.status='';
-return true"><img src="ProjetoHTML/img/bola.png" name="img4" width="19" height="19" border="0"></a>
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img5" width="19" height="19" border="0">
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img6" width="19" height="19" border="0">
-            <br>
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img7" width="19" height="19" border="0">
-            <img src="http://divertudo.com.br/restaum/blank.gif" name="img8" width="19" height="19" border="0">
-            <a href="#" onclick="window.move(9);return false" onmouseover="window.status='';
-return true"><img src="ProjetoHTML/img/bola.png" name="img9" width="19" height="19" border="0"></a>
-            <a href="#" onclick="window.move(10);return false" onmouseover="window.status='';
-return true"><img src="ProjetoHTML/img/bola.png" name="img10" width="19" height="19" border="0"></a>
-        </td>
-    </tr>
-    """.trimIndent()
     return arrayOf(
             intArrayOf(-1,-1,1,1,1,-1,-1),
             intArrayOf(-1,-1,1,1,1,-1,-1),
@@ -52,7 +29,8 @@ return true"><img src="ProjetoHTML/img/bola.png" name="img10" width="19" height=
 }
 
 fun <T> generateBoard(size:Int):Array<PositionList> = {
-    return arrayOf(generateLine(0,0, size),
+    return arrayOf(
+            generateLine(0,0, size),
             generateLine(1,0, size),
             generateLine(2,0, size),
             generateLine(3,0, size),
