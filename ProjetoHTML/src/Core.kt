@@ -36,8 +36,7 @@ fun <T> generateBoard(size:Int):Array<PositionList> = {
             generateLine(3,0, size),
             generateLine(4,0, size),
             generateLine(5,0, size),
-            generateLine(6,0, size),
-            generateLine(7,0, size)
+            generateLine(6,0, size)
     )
 }
 
@@ -91,7 +90,7 @@ fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
 fun move(x:Int, y:Int){
 
     if (isPositionValid(tabuleiro,x,y)){
-
+        if(isValidMove(tabuleiro,x,y,x+1,y+1))
     }
 }
 
