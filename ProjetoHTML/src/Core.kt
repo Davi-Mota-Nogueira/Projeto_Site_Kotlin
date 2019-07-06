@@ -3,7 +3,6 @@ abstract class PositionList<out T>
 data class Position<T> (val info:Int, val prox: PositionList<T>) : PositionList<T>()
 object Null:PositionList<Nothing>()
 
-
 fun get(name:String):HTMLElement {
     val e = document.getElementById(name)
     if (e==null) {
@@ -25,9 +24,15 @@ fun generateBoard():Array<IntArray>
             intArrayOf( 1, 1,1,1,1, 1, 1),
             intArrayOf(-1,-1,1,1,1,-1,-1),
             intArrayOf(-1,-1,1,1,1,-1,-1)
-            )
+    )
 }
 
+/**
+ * Generate board by calling individual line generation
+ *
+ * @param size line size
+ * @return 7x7 valid board
+ */
 fun <T> generateBoard(size:Int):Array<PositionList> = {
     return arrayOf(
             generateLine(0,0, size),
@@ -40,6 +45,23 @@ fun <T> generateBoard(size:Int):Array<PositionList> = {
     )
 }
 
+/**
+ * Generate a single line, according to the Solitaire rule.
+ *
+ * X X 1 1 1 X X
+ * X X 1 1 1 X X
+ * 1 1 1 1 1 1 1
+ * 1 1 1 0 1 1 1
+ * 1 1 1 1 1 1 1
+ * X X 1 1 1 X X
+ * X X 1 1 1 X X
+ *
+ * 1 - Filled place / 0 - Empty place / -1/X - Invalid place
+ *
+ * @param currentLine Current Line
+ * @param position Current column
+ * @param size Line size
+ */
 fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<T> {
     return when {
         currentLine < size -> {
@@ -59,6 +81,16 @@ fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<T> {
     }
 }
 
+/**
+ * Test if a single move is valid
+ *
+ * @param tabuleiro position map
+ * @param x current column
+ * @param y current row
+ * @param xDest destination column
+ * @param yDest destination row
+ * @return moviment validation 2 steps for each side
+ */
 fun isValidMove(board:Array<PositionList>, x:Int, y:Int, xDest:Int, yDest:Int):Boolean = {
     var ret = false
 
@@ -83,15 +115,49 @@ fun isPositionEmpty(board:Array<PositionList>, x:Int, y:Int):Boolean {
     return board[x][y].info == 0
 }
 
+/**
+ * Test if the position isn't invalid (out of the board)
+ *
+ * @param board current board
+ * @param x current row
+ * @param y current line
+ */
 fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
     return board[x][y].info != -1
 }
 
-fun move(x:Int, y:Int){
+/**
+ * Encapsulate the vertical move test
+ *
+ * @param tabuleiro position map
+ * @param x current column
+ * @param y current row
+ * @return moviment validation 2 steps for each side
+ */
+fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean =
+{
+    isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2)
+        && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
+}
 
+/**
+ * Encapsulate the horizontal move test
+ *
+ * @param tabuleiro position map
+ * @param x current column
+ * @param y current row
+ * @return moviment validation 2 steps for each side
+ */
+fun isValidHorizontalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean =
+{
+    isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y)
+            && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
+}
+
+fun move(x:Int, y:Int){
     if (isPositionValid(tabuleiro,x,y)){
-        if(isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2) && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
-                isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y) && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)){
+        if(isValidHorizontalMove(tabuleiro,x,y) && isValidVerticalMove(tabuleiro,x,y)){
+
             /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
             e de 1 para 0.
              */
