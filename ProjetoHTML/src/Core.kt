@@ -90,7 +90,12 @@ fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
 fun move(x:Int, y:Int){
 
     if (isPositionValid(tabuleiro,x,y)){
-        if(isValidMove(tabuleiro,x,y,x+1,y+1))
+        if(isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2) && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
+                isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y) && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)){
+            /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
+            e de 1 para 0.
+             */
+        }
     }
 }
 
