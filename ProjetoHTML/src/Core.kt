@@ -23,20 +23,20 @@ fun generateBoard():Array<IntArray>
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img0" width="19" height="19" border="0">
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img1" width="19" height="19" border="0">
             <a href="#" onclick="window.move(2);return false" onmouseover="window.status='';
-return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img2" width="19" height="19" border="0"></a>
+return true"><img src="ProjetoHTML/img/bola.png" name="img2" width="19" height="19" border="0"></a>
             <a href="#" onclick="window.move(3);return false" onmouseover="window.status='';
-return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img3" width="19" height="19" border="0"></a>
+return true"><img src="ProjetoHTML/img/bola.png" name="img3" width="19" height="19" border="0"></a>
             <a href="#" onclick="window.move(4);return false" onmouseover="window.status='';
-return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img4" width="19" height="19" border="0"></a>
+return true"><img src="ProjetoHTML/img/bola.png" name="img4" width="19" height="19" border="0"></a>
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img5" width="19" height="19" border="0">
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img6" width="19" height="19" border="0">
             <br>
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img7" width="19" height="19" border="0">
             <img src="http://divertudo.com.br/restaum/blank.gif" name="img8" width="19" height="19" border="0">
             <a href="#" onclick="window.move(9);return false" onmouseover="window.status='';
-return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img9" width="19" height="19" border="0"></a>
+return true"><img src="ProjetoHTML/img/bola.png" name="img9" width="19" height="19" border="0"></a>
             <a href="#" onclick="window.move(10);return false" onmouseover="window.status='';
-return true"><img src="http://divertudo.com.br/restaum/peg.gif" name="img10" width="19" height="19" border="0"></a>
+return true"><img src="ProjetoHTML/img/bola.png" name="img10" width="19" height="19" border="0"></a>
         </td>
     </tr>
     """.trimIndent()
@@ -108,5 +108,12 @@ fun isPositionEmpty(board:Array<PositionList>, x:Int, y:Int):Boolean {
 
 fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
     return board[x][y].info != -1
+}
+
+fun move(x:Int, y:Int){
+
+    if (isPositionValid(tabuleiro,x,y)){
+
+    }
 }
 
