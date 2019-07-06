@@ -158,6 +158,11 @@ fun move(x:Int, y:Int){
     if (isPositionValid(tabuleiro,x,y)){
         if(isValidHorizontalMove(tabuleiro,x,y) && isValidVerticalMove(tabuleiro,x,y)){
 
+            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-table-element/index.html
+            val rows = table.rows[x].asList()
+
+            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-collection/index.html
+            println(rows.length)
             /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
             e de 1 para 0.
              */
