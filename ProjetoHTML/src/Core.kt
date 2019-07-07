@@ -17,14 +17,17 @@ fun getElementFromDocument(name:String):HTMLElement {
 }
 
 val table = getElementFromDocument("tabuleiro") as HTMLTableElement
-val img = getElementFromDocument("bola") as HTMLImageElement
+//val img = getElementFromDocument("bola") as HTMLImageElement
 
 // Initialize as empty board
 var board = emptyArray<IntArray>()
 
 // Initialize the game board
+@JsName("generateBoard")
 fun generateBoard()
 {
+    println("Initializing a new Board")
+
     board = arrayOf(
             intArrayOf(-1,-1,1,1,1,-1,-1),
             intArrayOf(-1,-1,1,1,1,-1,-1),
@@ -102,29 +105,10 @@ fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<Int> 
  * @param yDest destination row
  * @return moviment validation 2 steps for each side
  */
-/*
-fun isValidMove(board:Array<PositionList>, x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
-    var ret:Boolean = false
-
-    if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
-        if (isPositionEmpty(board, xDest, yDest)) {
-            // movimento vertical
-            if (xDest == x && (board[x][yDest - 1].info == 1 || board[x][yDest + 1].info == 1)) {
-                ret = true
-            }
-
-            // movimento horizontal
-            if (yDest == y && (board[xDest - 1][y].info == 1 || board[xDest + 1][y].info == 1)) {
-                ret = true
-            }
-        }
-    }
-
-    return ret
-}
-*/
 fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
     var ret:Boolean = false
+
+    println("Testing if move from [" + x + "," + y + "] to [" + xDest + "," + yDest + "] is valid!")
 
     if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
         if (isPositionEmpty(xDest, yDest)) {
@@ -142,11 +126,6 @@ fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
 
     return ret
 }
-/*
-fun isPositionEmpty(board:Array<PositionList>, x:Int, y:Int):Boolean {
-    return board[x][y].info == 0
-}
-*/
 
 fun isPositionEmpty(x:Int, y:Int):Boolean {
     return board[x][y] == 0
@@ -159,11 +138,6 @@ fun isPositionEmpty(x:Int, y:Int):Boolean {
  * @param x current row
  * @param y current line
  */
-/*
-fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
-    return board[x][y].info != -1
-}
-*/
 fun isPositionValid(x: Int,y: Int):Boolean{
     return board[x][y] != -1
 }
@@ -175,13 +149,6 @@ fun isPositionValid(x: Int,y: Int):Boolean{
  * @param y current row
  * @return moviment validation 2 steps for each side
  */
-/*
-fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
-{
-    return isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2)
-            && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
-}
-*/
 fun isValidVerticalMove(x:Int,y:Int):Boolean
 {
     return isValidMove(x,y,x,y+1) && isValidMove(x,y,x,y+2)
@@ -196,45 +163,54 @@ fun isValidVerticalMove(x:Int,y:Int):Boolean
  * @param y current row
  * @return moviment validation 2 steps for each side
  */
-/*
-fun isValidHorizontalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
-{
-    return isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y)
-            && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
-}
-*/
 fun isValidHorizontalMove(x:Int,y:Int):Boolean
 {
     return isValidMove(x,y,x-2,y) && isValidMove(x,y,x-1,y)
             && isValidMove(x,y,x+1,y) && isValidMove(x,y,x+2,y)
 }
 
-//fun move(x:Int, y:Int){
-//    if (isPositionValid(tabuleiro,x,y)){
-//        if(isValidHorizontalMove(tabuleiro,x,y) && isValidVerticalMove(tabuleiro,x,y)){
-//
-//            // Pega o id da celula atual
-//            val currentCell = getElementFromDocument(x.toString() + y.toString())
-//
-//            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-table-element/index.html
-//            val rows = table.rows.asList()
-//
-//            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-collection/index.html
-//            println(rows.size)
-//
-//            /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
-//            e de 1 para 0.
-//             */
-//        }
-//    }
-//}
+fun getHorizontalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
+    var positions:List<Pair<Int,Int>> = mutableListOf()
 
+    if(isValidMove(x,y,x-2, y)){
+        positions += Pair(x-2,y)
+    }
+
+    if(isValidMove(x,y,x+2, y)){
+        positions += Pair(x+2,y)
+    }
+
+    return positions
+}
+
+
+fun getVerticalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
+    var positions:List<Pair<Int,Int>> = mutableListOf()
+
+    if(isValidMove(x,y,x, y -2)){
+        positions += Pair(x,y - 2)
+    }
+
+    if(isValidMove(x,y,x, y + 2)){
+        positions += Pair(x,y + 2)
+    }
+
+    return positions
+}
+
+@JsName("move")
 fun move(x:Int, y:Int){
     if (isPositionValid(x,y)){
         if(isValidHorizontalMove(x,y) && isValidVerticalMove(x,y)){
 
+            // Pega as possibilidades de movimento
+            val hMoves:List<Pair<Int, Int>> = getHorizontalMoves(x,y)
+            val vMoves:List<Pair<Int, Int>> = getVerticalMoves(x,y)
+
+            val currentId = x.toString() + y.toString()
+            println("")
             // Pega o id da celula atual
-            val currentCell = getElementFromDocument(x.toString() + y.toString())
+            val currentCell = getElementFromDocument(currentId)
 
             //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-table-element/index.html
             val rows = table.rows.asList()
