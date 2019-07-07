@@ -2,6 +2,14 @@
 
 #### [Unreleased]
 
+## [07-07-2019] - George
+### FIXED
+
+- Some imports that were missing
+- Method modelling
+- Size property that were called as method
+- Some type conversion 
+
 ## [06-07-2019] - George
 ### ADDED
 - Method documentation

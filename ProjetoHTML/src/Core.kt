@@ -1,7 +1,12 @@
+import org.w3c.dom.*
+import kotlin.browser.*
+import kotlin.math.*
 
 abstract class PositionList<out T>
 data class Position<T> (val info:Int, val prox: PositionList<T>) : PositionList<T>()
 object Null:PositionList<Nothing>()
+
+var tabuleiro:Array<PositionList> = emptyArray()
 
 fun get(name:String):HTMLElement {
     val e = document.getElementById(name)
@@ -33,7 +38,8 @@ fun generateBoard():Array<IntArray>
  * @param size line size
  * @return 7x7 valid board
  */
-fun <T> generateBoard(size:Int):Array<PositionList> = {
+fun <T> generateBoard(size:Int):Array<PositionList>
+{
     return arrayOf(
             generateLine(0,0, size),
             generateLine(1,0, size),
@@ -71,7 +77,7 @@ fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<T> {
                 } else {
                     Position(1, generateLine<T>(currentLine, position + 1, size))
                 }
-            } else if (position == floor(size/2) && currentLine == floor(size/2)) {
+            } else if (position == floor(size.toDouble()/2).toInt() && currentLine == floor(size.toDouble()/2).toInt()) {
                 Position(0, generateLine<T>(currentLine, position + 1, size))
             } else{
                 Position(1, generateLine<T>(currentLine, position + 1, size))
@@ -91,10 +97,10 @@ fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<T> {
  * @param yDest destination row
  * @return moviment validation 2 steps for each side
  */
-fun isValidMove(board:Array<PositionList>, x:Int, y:Int, xDest:Int, yDest:Int):Boolean = {
-    var ret = false
+fun isValidMove(board:Array<PositionList>, x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
+    var ret:Boolean = false
 
-    if(xDest >= 0 && xDest < board.size() && yDest >= 0 && yDest < board.size()) {
+    if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
         if (isPositionEmpty(board, xDest, yDest)) {
             // movimento vertical
             if (xDest == x && (board[x][yDest - 1].info == 1 || board[x][yDest + 1].info == 1)) {
@@ -134,9 +140,9 @@ fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
  * @param y current row
  * @return moviment validation 2 steps for each side
  */
-fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean =
+fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
 {
-    isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2)
+    return isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2)
         && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
 }
 
@@ -148,10 +154,10 @@ fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean =
  * @param y current row
  * @return moviment validation 2 steps for each side
  */
-fun isValidHorizontalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean =
+fun isValidHorizontalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
 {
-    isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y)
-            && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
+    return isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y)
+           && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
 }
 
 fun move(x:Int, y:Int){
