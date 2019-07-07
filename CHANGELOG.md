@@ -4,10 +4,19 @@
 
 ## [07-07-2019] - George
 
+### ADDED
+
+- Method to get the intermediate position
+- Method to change the image at a specific position
+- Usage of pairs in some points, instead of ints
+- Available position test 
+
 ### CHANGED
 
 - Now we use a int matrix instead of generic
 - Adapt to use just int
+- Intermediate position calculation
+- Table elements IDS
 
 ### FIXED
 
@@ -15,6 +24,7 @@
 - Method modelling
 - Size property that were called as method
 - Some type conversion 
+- Some bugs at position calculation
 
 ## [06-07-2019] - George
 ### ADDED

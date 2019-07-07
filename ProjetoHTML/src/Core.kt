@@ -118,7 +118,7 @@ fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
 
         if (isPositionEmpty(destPos.first, destPos.second)) {
             if(board[interPos.first][interPos.second] == 1)
-            {6
+            {
                 ret = true
             }
 //            // movimento vertical
