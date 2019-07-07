@@ -8,7 +8,7 @@ object Null:PositionList<Nothing>()
 
 var tabuleiro:Array<PositionList> = emptyArray()
 
-fun get(name:String):HTMLElement {
+fun getElementFromDocument(name:String):HTMLElement {
     val e = document.getElementById(name)
     if (e==null) {
         println("Careful, the element $name was not found.")
@@ -16,8 +16,8 @@ fun get(name:String):HTMLElement {
     return e as HTMLElement
 }
 
-val table = get("tabuleiro") as HTMLTableElement
-val img = get("bola") as HTMLImageElement
+val table = getElementFromDocument("tabuleiro") as HTMLTableElement
+val img = getElementFromDocument("bola") as HTMLImageElement
 
 fun generateBoard():Array<IntArray>
 {
@@ -143,7 +143,7 @@ fun isPositionValid(board:Array<PositionList>, x:Int, y:Int):Boolean {
 fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
 {
     return isValidMove(tabuleiro,x,y,x,y+1) && isValidMove(tabuleiro,x,y,x,y+2)
-        && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
+            && isValidMove(tabuleiro,x,y,x,y-1) && isValidMove(tabuleiro,x,y,x,y-2)
 }
 
 /**
@@ -157,18 +157,22 @@ fun isValidVerticalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
 fun isValidHorizontalMove(tabuleiro:Array<PositionList>,x:Int,y:Int):Boolean
 {
     return isValidMove(tabuleiro,x,y,x-2,y) && isValidMove(tabuleiro,x,y,x-1,y)
-           && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
+            && isValidMove(tabuleiro,x,y,x+1,y) && isValidMove(tabuleiro,x,y,x+2,y)
 }
 
 fun move(x:Int, y:Int){
     if (isPositionValid(tabuleiro,x,y)){
         if(isValidHorizontalMove(tabuleiro,x,y) && isValidVerticalMove(tabuleiro,x,y)){
 
+            // Pega o id da celula atual
+            val currentCell = getElementFromDocument(x.toString() + y.toString())
+
             //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-table-element/index.html
-            val rows = table.rows[x].asList()
+            val rows = table.rows.asList()
 
             //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-collection/index.html
-            println(rows.length)
+            println(rows.size)
+
             /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
             e de 1 para 0.
              */
