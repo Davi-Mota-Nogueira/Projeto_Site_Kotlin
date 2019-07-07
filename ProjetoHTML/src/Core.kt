@@ -111,16 +111,25 @@ fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
     //println("Testing if move from [" + x + "," + y + "] to [" + xDest + "," + yDest + "] is valid!")
 
     if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
-        if (isPositionEmpty(xDest, yDest)) {
-            // movimento vertical
-            if (xDest == x && (board[x][yDest - 1] == 1 || board[x][yDest + 1] == 1)) {
-                ret = true
-            }
 
-            // movimento horizontal
-            if (yDest == y && (board[xDest - 1][y] == 1 || board[xDest + 1][y] == 1)) {
+        var currentPos = Pair(x,y)
+        var destPos = Pair(xDest,yDest)
+        var interPos = getIntermediatePosition(currentPos, destPos)
+
+        if (isPositionEmpty(destPos.first, destPos.second)) {
+            if(board[interPos.first][interPos.second] == 1)
+            {6
                 ret = true
             }
+//            // movimento vertical
+//            if (xDest == x && (board[x][yDest - 1] == 1 || board[x][yDest + 1] == 1)) {
+//                ret = true
+//            }
+//
+//            // movimento horizontal
+//            if (yDest == y && (board[xDest - 1][y] == 1 || board[xDest + 1][y] == 1)) {
+//                ret = true
+//            }
         }
     }
 
@@ -250,12 +259,13 @@ fun move(x:Int, y:Int){
         val hMoves: List<Pair<Int, Int>> = getHorizontalMoves(x, y)
         val vMoves: List<Pair<Int, Int>> = getVerticalMoves(x, y)
 
-        print("Horizontal Possitilities: ")
-        println(hMoves)
-        print("Vertical Possitilities: ")
-        println(vMoves)
-
         if (hMoves.size > 0 || vMoves.size > 0) {
+
+            print("Horizontal Possitilities: ")
+            println(hMoves)
+            print("Vertical Possitilities: ")
+            println(vMoves)
+
             if(hMoves.size > 0 && vMoves.size > 0) {
                 println("Two Possibilities")
             }
