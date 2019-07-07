@@ -3,6 +3,12 @@
 #### [Unreleased]
 
 ## [07-07-2019] - George
+
+### CHANGED
+
+- Now we use a int matrix instead of generic
+- Adapt to use just int
+
 ### FIXED
 
 - Some imports that were missing
