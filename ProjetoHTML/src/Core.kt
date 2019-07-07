@@ -108,7 +108,7 @@ fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<Int> 
 fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
     var ret:Boolean = false
 
-    println("Testing if move from [" + x + "," + y + "] to [" + xDest + "," + yDest + "] is valid!")
+    //println("Testing if move from [" + x + "," + y + "] to [" + xDest + "," + yDest + "] is valid!")
 
     if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
         if (isPositionEmpty(xDest, yDest)) {
@@ -183,7 +183,6 @@ fun getHorizontalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
     return positions
 }
 
-
 fun getVerticalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
     var positions:List<Pair<Int,Int>> = mutableListOf()
 
@@ -198,29 +197,78 @@ fun getVerticalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
     return positions
 }
 
+fun changeImage(position:Pair<Int,Int>, filled:Boolean) {
+    var currentId = position.first.toString() + position.second.toString()
+    var currentCell = getElementFromDocument(currentId)
+
+    if(filled)
+        currentCell.innerHTML = "<a href=\"#\" onclick=\"Projeto_Site_Kotlin.move(" + position.first.toString() + "," + position.second.toString() + " )\"><img src=\"img/bola.png\"></a>"
+    else
+        currentCell.innerHTML = "<a href=\"#\" onclick=\"Projeto_Site_Kotlin.move(" + position.first.toString() + "," + position.second.toString() + " )\"><img src=\"img/sem-bola.png\"></a>"
+
+}
+
+fun getIntermediatePosition(src:Pair<Int,Int>, dest:Pair<Int,Int>):Pair<Int,Int> {
+    var x:Int = src.first
+    var y:Int = src.second
+
+    if(src.first == dest.first)
+    {
+        if(src.second > dest.second)
+            y = src.second - 1
+        else
+            y = src.second + 1
+    }
+    else
+    {
+        if(src.first > dest.first)
+            x = src.first - 1
+        else
+            x = src.first + 1
+    }
+
+    return Pair(x,y)
+}
+
+fun makeMove(src:Pair<Int,Int>, dest:Pair<Int,Int>)
+{
+    changeImage(src, false)
+    board[src.first][src.second] = 0
+
+    val inter = getIntermediatePosition(src, dest)
+    changeImage(inter, false)
+    board[inter.first][inter.second] = 0
+
+    changeImage(dest, true)
+    board[dest.first][dest.second] = 1
+}
+
 @JsName("move")
 fun move(x:Int, y:Int){
-    if (isPositionValid(x,y)){
-        if(isValidHorizontalMove(x,y) && isValidVerticalMove(x,y)){
+    if (isPositionValid(x,y)) {
+        // Pega as possibilidades de movimento
+        val hMoves: List<Pair<Int, Int>> = getHorizontalMoves(x, y)
+        val vMoves: List<Pair<Int, Int>> = getVerticalMoves(x, y)
 
-            // Pega as possibilidades de movimento
-            val hMoves:List<Pair<Int, Int>> = getHorizontalMoves(x,y)
-            val vMoves:List<Pair<Int, Int>> = getVerticalMoves(x,y)
+        print("Horizontal Possitilities: ")
+        println(hMoves)
+        print("Vertical Possitilities: ")
+        println(vMoves)
 
-            val currentId = x.toString() + y.toString()
-            println("")
-            // Pega o id da celula atual
-            val currentCell = getElementFromDocument(currentId)
-
-            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-table-element/index.html
-            val rows = table.rows.asList()
-
-            //https://kotlinlang.org/api/latest/jvm/stdlib/org.w3c.dom/-h-t-m-l-collection/index.html
-            println(rows.size)
-
-            /*TODO, pegar o elemento por id e torcar as imagens e propriedades para onde ele vai, tipo de 0 para 1
-            e de 1 para 0.
-             */
+        if (hMoves.size > 0 || vMoves.size > 0) {
+            if(hMoves.size > 0 && vMoves.size > 0) {
+                println("Two Possibilities")
+            }
+            else{
+                if(hMoves.size > 0)
+                {
+                    makeMove(Pair(x,y),hMoves.get(0))
+                }
+                else
+                {
+                    makeMove(Pair(x,y),vMoves.get(0))
+                }
+            }
         }
     }
 }
