@@ -10,6 +10,8 @@
 - Method to change the image at a specific position
 - Usage of pairs in some points, instead of ints
 - Available position test 
+- Winning condition test
+- Lambda functions to initialize the board
 
 ### CHANGED
 
@@ -17,6 +19,7 @@
 - Adapt to use just int
 - Intermediate position calculation
 - Table elements IDS
+- Type of the table (IntArray to Array<Int>)
 
 ### FIXED
 
@@ -25,6 +28,8 @@
 - Size property that were called as method
 - Some type conversion 
 - Some bugs at position calculation
+- Some movements happening with empty cells
+- Board missinitialization
 
 ## [06-07-2019] - George
 ### ADDED
