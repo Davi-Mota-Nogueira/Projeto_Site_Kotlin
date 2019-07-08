@@ -17,48 +17,10 @@ fun getElementFromDocument(name:String):HTMLElement {
 }
 
 val table = getElementFromDocument("tabuleiro") as HTMLTableElement
-//val img = getElementFromDocument("bola") as HTMLImageElement
 
 // Initialize as empty board
-var board = emptyArray<IntArray>()
+var board = emptyArray<Array<Int>>()
 
-// Initialize the game board
-@JsName("generateBoard")
-fun generateBoard()
-{
-    println("Initializing a new Board")
-
-    board = arrayOf(
-            intArrayOf(-1,-1,1,1,1,-1,-1),
-            intArrayOf(-1,-1,1,1,1,-1,-1),
-            intArrayOf( 1, 1,1,1,1, 1, 1),
-            intArrayOf( 1, 1,1,0,1, 1, 1),
-            intArrayOf( 1, 1,1,1,1, 1, 1),
-            intArrayOf(-1,-1,1,1,1,-1,-1),
-            intArrayOf(-1,-1,1,1,1,-1,-1)
-    )
-}
-
-/**
- * Generate board by calling individual line generation
- *
- * @param size line size
- * @return 7x7 valid board
- */
-/*
-fun <Int> generateBoard(size:Int):Array<PositionList>
-{
-    return arrayOf(
-            generateLine(0,0, size),
-            generateLine(1,0, size),
-            generateLine(2,0, size),
-            generateLine(3,0, size),
-            generateLine(4,0, size),
-            generateLine(5,0, size),
-            generateLine(6,0, size)
-    )
-}
-*/
 /**
  * Generate a single line, according to the Solitaire rule.
  *
@@ -72,29 +34,36 @@ fun <Int> generateBoard(size:Int):Array<PositionList>
  *
  * 1 - Filled place / 0 - Empty place / -1/X - Invalid place
  *
- * @param currentLine Current Line
- * @param position Current column
- * @param size Line size
  */
-fun <T> generateLine(currentLine:Int, position:Int, size:Int):PositionList<Int> {
-    return when {
-        currentLine < size -> {
-            if (position < 2 || position > 5) {
-                if(currentLine < 2 || currentLine > 5) {
-                    Position(-1, generateLine<T>(currentLine, position + 1, size))
-                } else {
-                    Position(1, generateLine<T>(currentLine, position + 1, size))
-                }
-            } else if (position == floor(size.toDouble()/2).toInt() && currentLine == floor(size.toDouble()/2).toInt()) {
-                Position(0, generateLine<T>(currentLine, position + 1, size))
-            } else{
-                Position(1, generateLine<T>(currentLine, position + 1, size))
-            }
-        }
-        else -> Null
-    }
+@JsName("generateBoard")
+fun generateBoard() {
+    println("Initializing a new Board")
+    board = arrayOf(
+            Array<Int>(7, { n -> if (n < 2 || n > 5) -1 else 1}),
+            Array<Int>(7, { n -> if (n < 2 || n > 5) -1 else 1}),
+            Array<Int>(7, {1}),
+            Array<Int>(7, { n -> if (n == 3) 0 else 1}),
+            Array<Int>(7, {1}),
+            Array<Int>(7, { n -> if (n < 2 || n > 5) -1 else 1}),
+            Array<Int>(7, { n -> if (n < 2 || n > 5) -1 else 1})
+    )
 }
 
+/**
+ * Test if the winning condition was achieved.
+ * Goes testing line by line.
+ *
+ * @param board current board
+ */
+fun winner(board:Array<Array<Int>>):Int{
+    fun aux(board:Array<Array<Int>>, cont:Int, i:Int):Int = when{
+        board[i].filter({x:Int-> x == 1}).isNotEmpty() ->
+            aux(board, cont + 1, i + 1)
+            board[i].filter({ x: Int -> x == 1 }).isEmpty() -> aux(board, cont, i+1)
+        else -> cont
+    }
+    return aux(board,0,0)
+}
 /**
  * Test if a single move is valid
  *
@@ -121,15 +90,6 @@ fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
             {
                 ret = true
             }
-//            // movimento vertical
-//            if (xDest == x && (board[x][yDest - 1] == 1 || board[x][yDest + 1] == 1)) {
-//                ret = true
-//            }
-//
-//            // movimento horizontal
-//            if (yDest == y && (board[xDest - 1][y] == 1 || board[xDest + 1][y] == 1)) {
-//                ret = true
-//            }
         }
     }
 
@@ -160,8 +120,8 @@ fun isPositionValid(x: Int,y: Int):Boolean{
  */
 fun isValidVerticalMove(x:Int,y:Int):Boolean
 {
-    return isValidMove(x,y,x,y+1) && isValidMove(x,y,x,y+2)
-            && isValidMove(x,y,x,y-1) && isValidMove(x,y,x,y-2)
+    return isValidMove(x,y,x,y + 1) && isValidMove(x,y,x,y + 2)
+            && isValidMove(x,y,x,y - 1) && isValidMove(x,y,x,y - 2)
 }
 
 /**
@@ -174,19 +134,19 @@ fun isValidVerticalMove(x:Int,y:Int):Boolean
  */
 fun isValidHorizontalMove(x:Int,y:Int):Boolean
 {
-    return isValidMove(x,y,x-2,y) && isValidMove(x,y,x-1,y)
-            && isValidMove(x,y,x+1,y) && isValidMove(x,y,x+2,y)
+    return isValidMove(x,y,x - 2,y) && isValidMove(x,y,x - 1,y)
+            && isValidMove(x,y,x + 1,y) && isValidMove(x,y,x + 2,y)
 }
 
 fun getHorizontalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
     var positions:List<Pair<Int,Int>> = mutableListOf()
 
-    if(isValidMove(x,y,x-2, y)){
-        positions += Pair(x-2,y)
+    if(isValidMove(x,y,x - 2, y)){
+        positions += Pair(x - 2,y)
     }
 
-    if(isValidMove(x,y,x+2, y)){
-        positions += Pair(x+2,y)
+    if(isValidMove(x,y,x + 2, y)){
+        positions += Pair(x + 2,y)
     }
 
     return positions
@@ -195,7 +155,7 @@ fun getHorizontalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
 fun getVerticalMoves(x:Int, y:Int):List<Pair<Int,Int>>{
     var positions:List<Pair<Int,Int>> = mutableListOf()
 
-    if(isValidMove(x,y,x, y -2)){
+    if(isValidMove(x,y,x, y - 2)){
         positions += Pair(x,y - 2)
     }
 
@@ -254,7 +214,8 @@ fun makeMove(src:Pair<Int,Int>, dest:Pair<Int,Int>)
 
 @JsName("move")
 fun move(x:Int, y:Int){
-    if (isPositionValid(x,y)) {
+    if (isPositionValid(x,y) && !isPositionEmpty(x,y)) {
+
         // Pega as possibilidades de movimento
         val hMoves: List<Pair<Int, Int>> = getHorizontalMoves(x, y)
         val vMoves: List<Pair<Int, Int>> = getVerticalMoves(x, y)
@@ -279,6 +240,12 @@ fun move(x:Int, y:Int){
                     makeMove(Pair(x,y),vMoves.get(0))
                 }
             }
+        }
+
+        // Condição de vitória
+        if(winner(board) == 1)
+        {
+            println("Parabéns, você ganhou!")
         }
     }
 }
