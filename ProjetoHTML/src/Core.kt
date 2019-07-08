@@ -1,12 +1,9 @@
 import org.w3c.dom.*
 import kotlin.browser.*
-import kotlin.math.*
 
 abstract class PositionList<out Int>
 data class Position<Int> (val info:Int, val prox: PositionList<Int>) : PositionList<Int>()
 object Null:PositionList<Nothing>()
-
-//var tabuleiro:Array<PositionList> = emptyArray()
 
 fun getElementFromDocument(name:String):HTMLElement {
     val e = document.getElementById(name)
@@ -76,8 +73,6 @@ fun winner(board:Array<Array<Int>>):Int{
  */
 fun isValidMove(x:Int, y:Int, xDest:Int, yDest:Int):Boolean {
     var ret:Boolean = false
-
-    //println("Testing if move from [" + x + "," + y + "] to [" + xDest + "," + yDest + "] is valid!")
 
     if(xDest >= 0 && xDest < board.size && yDest >= 0 && yDest < board.size) {
 
@@ -220,14 +215,14 @@ fun move(x:Int, y:Int){
         val hMoves: List<Pair<Int, Int>> = getHorizontalMoves(x, y)
         val vMoves: List<Pair<Int, Int>> = getVerticalMoves(x, y)
 
-        if (hMoves.size > 0 || vMoves.size > 0) {
+        if (hMoves.isNotEmpty() || vMoves.isNotEmpty()) {
 
             print("Horizontal Possitilities: ")
             println(hMoves)
             print("Vertical Possitilities: ")
             println(vMoves)
 
-            if(hMoves.size > 0 && vMoves.size > 0) {
+            if(hMoves.isNotEmpty() && vMoves.isNotEmpty()) {
                 println("Two Possibilities")
 
                 if(hMoves.size >= hMoves.size)
@@ -240,7 +235,7 @@ fun move(x:Int, y:Int){
                 }
             }
             else{
-                if(hMoves.size > 0)
+                if(hMoves.isNotEmpty())
                 {
                     makeMove(Pair(x,y),hMoves.get(0))
                 }
