@@ -229,6 +229,15 @@ fun move(x:Int, y:Int){
 
             if(hMoves.size > 0 && vMoves.size > 0) {
                 println("Two Possibilities")
+
+                if(hMoves.size >= hMoves.size)
+                {
+                    makeMove(Pair(x,y),hMoves.get(0))
+                }
+                else
+                {
+                    makeMove(Pair(x,y),vMoves.get(0))
+                }
             }
             else{
                 if(hMoves.size > 0)
